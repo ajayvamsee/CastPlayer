@@ -9,16 +9,25 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.ajayvamsee.castplayer.browser.VideoBrowserFragment
 import com.ajayvamsee.castplayer.settings.CastPreference
+import com.google.android.gms.cast.framework.CastButtonFactory
+import com.google.android.gms.cast.framework.CastContext
 import com.google.sample.cast.refplayer.R
+
 
 class VideoBrowserActivity : AppCompatActivity() {
     private var toolbar: Toolbar? = null
+
+    private var mCastContext: CastContext? = null
+    private var mediaRouteMenuItem: MenuItem ? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_video_browser)
 
         setUpActionBar()
+
+        mCastContext = CastContext.getSharedInstance()
     }
 
     private fun setUpActionBar() {
@@ -30,6 +39,7 @@ class VideoBrowserActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         return super.onCreateOptionsMenu(menu)
         menuInflater.inflate(R.menu.browse,menu)
+        mediaRouteMenuItem = CastButtonFactory.setUpMediaRouteButton(applicationContext, menu!!,R.id.media_route_menu_item)
         return true
     }
 

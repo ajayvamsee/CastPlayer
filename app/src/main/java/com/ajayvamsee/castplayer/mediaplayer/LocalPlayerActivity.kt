@@ -27,6 +27,8 @@ import com.ajayvamsee.castplayer.utils.MediaItem
 import com.ajayvamsee.castplayer.utils.Utils
 import com.android.volley.toolbox.ImageLoader
 import com.android.volley.toolbox.NetworkImageView
+import com.google.android.gms.cast.framework.CastButtonFactory
+import com.google.android.gms.cast.framework.CastContext
 import com.google.sample.cast.refplayer.R
 import java.util.*
 
@@ -54,6 +56,10 @@ class LocalPlayerActivity : AppCompatActivity() {
     private var mAuthorView: TextView? = null
     private var mPlayCircle: ImageButton? = null
     private var mLocation: PlaybackLocation? = null
+
+    //cast
+    private var mCastContext: CastContext? = null
+    private var mediaRouteItem: MenuItem? = null
 
     /**
      * indicates whether we are doing a local or a remote playback
@@ -107,6 +113,8 @@ class LocalPlayerActivity : AppCompatActivity() {
         if (mTitleView != null) {
             updateMetadata(true)
         }
+
+        mCastContext = CastContext.getSharedInstance()
     }
 
     private fun updatePlaybackLocation(location: PlaybackLocation) {
@@ -464,6 +472,7 @@ class LocalPlayerActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
         menuInflater.inflate(R.menu.browse, menu)
+        mediaRouteItem = CastButtonFactory.setUpMediaRouteButton(applicationContext, menu,R.id.media_route_menu_item)
         return true
     }
 
